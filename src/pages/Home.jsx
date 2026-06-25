@@ -51,7 +51,7 @@ function Home() {
         <input
           className="outline-none"
           type="text"
-          placeholder="Search for movie"
+          placeholder="Search for movie..."
           value={searchMovie}
           onChange={(e) => setSearchMovie(e.target.value)}
         />
