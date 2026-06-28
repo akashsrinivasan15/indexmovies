@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { searchMovies, getPopularMovies } from "../service/api";
+import { useNavigate } from "react-router-dom";
 
 const MovieContext = createContext();
 
@@ -10,6 +11,8 @@ export const useMovieContext = () => {
 export const MovieProvider = ({ children }) => {
   const [movies, setMovies] = useState([]);
   const [favorites, setFavorites] = useState([]);
+  const [movieName, setMovieName] = useState([]);
+  const navigate = useNavigate();
   const [searchMovie, setSearchMovie] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -36,7 +39,8 @@ export const MovieProvider = ({ children }) => {
     setLoading(true);
     try {
       const searchResults = await searchMovies(trimedMovie);
-      setMovies(searchResults);
+      setMovieName(searchResults);
+      navigate("/search");
       setError(false);
     } catch (err) {
       console.log(err);
@@ -44,7 +48,7 @@ export const MovieProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-    setSearchMovie("");
+   
   }
 
   useEffect(() => {
@@ -77,6 +81,7 @@ export const MovieProvider = ({ children }) => {
         movies,
         searchMovie,
         setSearchMovie,
+        movieName,
         error,
         loading,
         favorites,

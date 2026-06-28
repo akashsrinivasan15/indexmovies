@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import MovieCard from "../components/MovieCard";
 import { useMovieContext } from "../contexts/MovieContext";
+import { Link } from "react-router-dom";
 
 function Home() {
   const { movies, searchMovie, setSearchMovie, error, loading, handleSearch } =
@@ -19,7 +20,9 @@ function Home() {
           value={searchMovie}
           onChange={(e) => setSearchMovie(e.target.value)}
         />
-        <button type="submit">Search</button>
+        <button to="/search" type="submit">
+          Search
+        </button>
       </form>
       {error && <div>{error}</div>}
       {loading ? (
