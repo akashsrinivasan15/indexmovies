@@ -4,26 +4,32 @@ import { useMovieContext } from "../contexts/MovieContext";
 import { Link } from "react-router-dom";
 
 function Home() {
+  useEffect(() => {
+    document.title = "Movie App | Home";
+  }, []);
   const { movies, searchMovie, setSearchMovie, error, loading, handleSearch } =
     useMovieContext();
 
   return (
     <div className="bg-mist-800 text-white p-4">
-      <form
-        onSubmit={handleSearch}
-        className="border border-gray-200  w-fit px-4 py-2  mx-auto rounded-3xl mb-4"
-      >
-        <input
-          className="outline-none"
-          type="text"
-          placeholder="Search for movie..."
-          value={searchMovie}
-          onChange={(e) => setSearchMovie(e.target.value)}
-        />
-        <button to="/search" type="submit">
-          Search
-        </button>
-      </form>
+
+        <form
+          onSubmit={handleSearch}
+          className="border border-gray-200  w-fit px-4 py-2 mb-4 mx-auto rounded-3xl "
+        >
+          <input
+            className="outline-none"
+            type="text"
+            placeholder="Search for movie..."
+            value={searchMovie}
+            onChange={(e) => setSearchMovie(e.target.value)}
+          />
+          <button to="/search" type="submit">
+            Search
+          </button>
+        </form>
+   
+
       {error && <div>{error}</div>}
       {loading ? (
         <div className="flex justify-center items-center h-screen">

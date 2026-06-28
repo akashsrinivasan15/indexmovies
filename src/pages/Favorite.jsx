@@ -1,7 +1,11 @@
 import { useMovieContext } from "../contexts/MovieContext";
 import MovieCard from "../components/MovieCard";
+import { useEffect } from "react";
 
 function Favorite() {
+    useEffect(() => {
+      document.title = "Index Movies | Favorites";
+    }, []);
   const { favorites } = useMovieContext();
 
   return (

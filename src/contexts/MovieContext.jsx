@@ -48,7 +48,7 @@ export const MovieProvider = ({ children }) => {
     } finally {
       setLoading(false);
     }
-   
+   setSearchMovie("")
   }
 
   useEffect(() => {
