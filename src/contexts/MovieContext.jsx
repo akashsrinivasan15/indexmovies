@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { searchMovies, getPopularMovies } from "../service/api";
 
 const MovieContext = createContext();
 
@@ -7,7 +8,26 @@ export const useMovieContext = () => {
 };
 
 export const MovieProvider = ({ children }) => {
+  const [movies, setMovies] = useState([]);
   const [favorites, setFavorites] = useState([]);
+  const [searchMovie, setSearchMovie] = useState("");
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    setLoading(true);
+    const loadPopularMovies = async () => {
+      try {
+        const popularMovies = await getPopularMovies();
+        setMovies(popularMovies);
+      } catch (err) {
+        console.log(err);
+        setError("failed to load movies...");
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadPopularMovies();
+  }, []);
 
   useEffect(() => {
     const storedFavs = localStorage.getItem("favorites");
@@ -36,6 +56,10 @@ export const MovieProvider = ({ children }) => {
   return (
     <MovieContext.Provider
       value={{
+        movies,
+        searchMovie,
+        error,
+        loading,
         favorites,
         addToFavorites,
         removeFromFavorites,

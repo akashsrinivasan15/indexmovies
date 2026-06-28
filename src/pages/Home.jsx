@@ -1,27 +1,9 @@
 import { useEffect, useState } from "react";
 import MovieCard from "../components/MovieCard";
-import { searchMovies, getPopularMovies } from "../service/api";
+import { useMovieContext } from "../contexts/MovieContext";
 
 function Home() {
-  const [searchMovie, setSearchMovie] = useState("");
-  const [movies, setMovies] = useState([]);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    setLoading(true);
-    const loadPopularMovies = async () => {
-      try {
-        const popularMovies = await getPopularMovies();
-        setMovies(popularMovies);
-      } catch (err) {
-        console.log(err);
-        setError("failed to load movies...");
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadPopularMovies();
-  }, []);
+  const { movies, searchMovie, error, loading } = useMovieContext();
 
   async function handleSearch(e) {
     e.preventDefault();
@@ -63,7 +45,6 @@ function Home() {
           <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
         </div>
       ) : (
-        
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4  w-fit mx-auto">
           {movies.map((movie) => (
             <MovieCard movieInfo={movie} key={movie.id} />
