@@ -28,6 +28,24 @@ export const MovieProvider = ({ children }) => {
     };
     loadPopularMovies();
   }, []);
+  async function handleSearch(e) {
+    e.preventDefault();
+    const trimedMovie = searchMovie.trim();
+    if (!trimedMovie) return alert("Field is Empty");
+    if (loading) return;
+    setLoading(true);
+    try {
+      const searchResults = await searchMovies(trimedMovie);
+      setMovies(searchResults);
+      setError(false);
+    } catch (err) {
+      console.log(err);
+      setError("Failed to Search Movies...");
+    } finally {
+      setLoading(false);
+    }
+    setSearchMovie("");
+  }
 
   useEffect(() => {
     const storedFavs = localStorage.getItem("favorites");
@@ -58,9 +76,11 @@ export const MovieProvider = ({ children }) => {
       value={{
         movies,
         searchMovie,
+        setSearchMovie,
         error,
         loading,
         favorites,
+        handleSearch,
         addToFavorites,
         removeFromFavorites,
         isFavorites,

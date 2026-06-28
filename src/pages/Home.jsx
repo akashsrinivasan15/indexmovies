@@ -3,26 +3,8 @@ import MovieCard from "../components/MovieCard";
 import { useMovieContext } from "../contexts/MovieContext";
 
 function Home() {
-  const { movies, searchMovie, error, loading } = useMovieContext();
-
-  async function handleSearch(e) {
-    e.preventDefault();
-    const trimedMovie = searchMovie.trim();
-    if (!trimedMovie) return alert("Field is Empty");
-    if (loading) return;
-    setLoading(true);
-    try {
-      const searchResults = await searchMovies(trimedMovie);
-      setMovies(searchResults);
-      setError(false);
-    } catch (err) {
-      console.log(err);
-      setError("Failed to Search Movies...");
-    } finally {
-      setLoading(false);
-    }
-    setSearchMovie("");
-  }
+  const { movies, searchMovie, setSearchMovie, error, loading, handleSearch } =
+    useMovieContext();
 
   return (
     <div className="bg-mist-800 text-white p-4">
